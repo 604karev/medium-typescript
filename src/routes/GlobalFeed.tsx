@@ -1,4 +1,3 @@
-import { Authentication } from "pages/Authentication";
 import { GlobalFeed } from "pages/GlobalFeed";
 import { Routes, Route } from "react-router-dom";
 
