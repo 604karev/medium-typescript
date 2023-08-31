@@ -2,16 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { Authentication } from "pages/Authentication";
 import { BrowserRouter } from "react-router-dom";
-import './main.css';
+import "./main.css";
+import { AuthenticationRoutes, GlobalFeedRoutes } from "routes";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <Authentication />
+          <GlobalFeedRoutes />
+          <AuthenticationRoutes />
         </header>
       </div>
     </BrowserRouter>
