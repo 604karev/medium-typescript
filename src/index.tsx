@@ -1,4 +1,5 @@
 import React from "react";
+import { Box } from "@mui/material";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -6,17 +7,21 @@ import { BrowserRouter } from "react-router-dom";
 import "./main.css";
 import { AuthenticationRoutes, GlobalFeedRoutes } from "routes";
 import NavBar from "components/Header/NavBar";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <Box className="App">
         <header className="App-header">
           <NavBar />
-          <GlobalFeedRoutes />
-          <AuthenticationRoutes />
         </header>
-      </div>
+        <GlobalFeedRoutes />
+        <AuthenticationRoutes />
+      </Box>
     </BrowserRouter>
   );
 }

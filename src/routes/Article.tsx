@@ -1,7 +1,7 @@
 import { Article } from "pages/Article";
 import { Routes, Route } from "react-router-dom";
 
-function GlobalFeedRoutes() {
+function ArticleRoutes() {
   return (
     <Routes>
       <Route path="/article/:slug" element={<Article />} />
@@ -11,4 +11,4 @@ function GlobalFeedRoutes() {
   );
 }
 
-export default GlobalFeedRoutes;
+export default ArticleRoutes;
