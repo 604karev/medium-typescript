@@ -1,10 +1,16 @@
-import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FormEventHandler } from "react";
+import { Link } from "react-router-dom";
 import { useAuthenticationStore } from ".";
 
 function Component() {
-  const { email, phone, username, password, handleSubmit } =
-    useAuthenticationStore();
+  const {
+    email,
+    username,
+    password,
+    handleSubmit,
+    changeEmail,
+    changePassword,
+  } = useAuthenticationStore();
 
   const isLogin = false;
   const urlApi = isLogin ? "/users/login" : "/users";
@@ -23,7 +29,7 @@ function Component() {
                 {descriptionText}
               </Link>
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit as FormEventHandler}>
               <fieldset>
                 {!isLogin && (
                   <fieldset className="form-group">
@@ -42,7 +48,7 @@ function Component() {
                     type="email"
                     placeholder="Email"
                     value={email}
-                    onChange={() => {}}
+                    onChange={changeEmail}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -52,7 +58,7 @@ function Component() {
                     placeholder="Password"
                     value={password}
                     autoComplete="on"
-                    onChange={() => {}}
+                    onChange={changePassword}
                   />
                 </fieldset>
                 <button className="btn btn-primary btn-lg pull-xs-right offset-lg-4">
