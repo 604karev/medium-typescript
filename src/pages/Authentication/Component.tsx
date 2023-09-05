@@ -10,9 +10,10 @@ function Component() {
     handleSubmit,
     changeEmail,
     changePassword,
+    changeUsername,
+    isLogin,
   } = useAuthenticationStore();
 
-  const isLogin = false;
   const urlApi = isLogin ? "/users/login" : "/users";
   const pageTitle = isLogin ? "Sign In" : "Sign Up";
   const descriptionLink = isLogin ? "/register" : "/login";
@@ -38,7 +39,7 @@ function Component() {
                       type="username"
                       placeholder="Username"
                       value={username}
-                      onChange={() => {}}
+                      onChange={changeUsername}
                     />
                   </fieldset>
                 )}

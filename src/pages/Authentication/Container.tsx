@@ -3,6 +3,7 @@ import Component from "./Component";
 import { StoreProvider } from "./store";
 import { stateSetter } from "utils";
 import useFetch from "hooks/useFetch";
+import { useLocation } from "react-router-dom";
 
 export interface User {
   name: string;
@@ -15,22 +16,22 @@ function Container() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
+  const { pathname } = useLocation();
+  const isLogin = pathname === "/login";
+  const user = isLogin ? { email, password } : { username, email, password };
 
   const options = {
     method: "POST",
-    url: "/login/user",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      user: {
-        email: email,
-        password: password,
-      },
-    }),
+    body: JSON.stringify(user),
   };
 
-  const { data, fetchQuery, isLoading } = useFetch("/login/user", options);
+  const { data, fetchQuery, isLoading, error } = useFetch(
+    isLogin ? "/users/login" : "/users",
+    options
+  );
 
   function handleSubmit(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
@@ -51,6 +52,7 @@ function Container() {
         changePassword,
         changeEmail,
         changeUsername,
+        isLogin,
       })}
     >
       <Component />
