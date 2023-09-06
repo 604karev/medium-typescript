@@ -5,6 +5,7 @@ import { stateSetter } from "utils";
 import useFetch from "hooks/useFetch";
 import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "hooks/useLocalSrorage";
+import { useUserContextStore } from "contexts/UserContext";
 
 export interface User {
   name: string;
@@ -19,15 +20,18 @@ function Container() {
   const [phone, setPhone] = useState("");
   const { pathname } = useLocation();
   const isLogin = pathname === "/login";
-  const user = isLogin ? { email, password } : { username, email, password };
+  const userData = isLogin
+    ? { email, password }
+    : { username, email, password };
   const { setToken } = useLocalStorage("token");
+  const { user, setUser } = useUserContextStore();
 
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user: user }),
+    body: JSON.stringify({ user: userData }),
   };
 
   const { refetch, isLoading, error, data } = useFetch(
@@ -46,6 +50,7 @@ function Container() {
   useEffect(() => {
     if (!data) return;
     setToken(data.user.token);
+    setUser(data.user);
   }, [data]);
 
   return (
@@ -60,6 +65,7 @@ function Container() {
         changeEmail,
         changeUsername,
         isLogin,
+        isLoading,
       })}
     >
       <Component />

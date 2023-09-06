@@ -12,21 +12,24 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { UserContext } from "contexts/UserContext";
 
 function App() {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Box className="App">
-          <header className="App-header">
-            <NavBar />
-          </header>
-          <GlobalFeedRoutes />
-          <AuthenticationRoutes />
-        </Box>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <UserContext>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Box className="App">
+            <header className="App-header">
+              <NavBar />
+            </header>
+            <GlobalFeedRoutes />
+            <AuthenticationRoutes />
+          </Box>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </UserContext>
   );
 }
 

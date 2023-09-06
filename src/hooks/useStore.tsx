@@ -1,7 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren, createContext, useContext } from "react";
 
 export function getStoreContext<T extends object>() {
-  const StoreContext = React.createContext<T | null>(null);
+  const StoreContext = createContext<T | null>(null);
 
   function StoreProvider({
     children,
@@ -13,7 +13,7 @@ export function getStoreContext<T extends object>() {
     );
   }
   const useStore = () => {
-    const store = React.useContext(StoreContext);
+    const store = useContext(StoreContext);
     if (!store) {
       throw new Error("useStore must be used within a StoreProvider.");
     }
