@@ -2,7 +2,7 @@ import { MouseEvent, useState, FormEventHandler, useEffect } from "react";
 import Component from "./Component";
 import { StoreProvider } from "./store";
 import { stateSetter } from "utils";
-import useFetch from "hooks/useFetch";
+import { useFetch } from "hooks/useFetch";
 import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "hooks/useLocalSrorage";
 import { useUserContextStore } from "contexts/UserContext";
@@ -25,33 +25,16 @@ function Container() {
     : { username, email, password };
   const { setToken } = useLocalStorage("token");
   const { user, setUser } = useUserContextStore();
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user: userData }),
-  };
-
-  const { refetch, isLoading, error, data } = useFetch(
-    isLogin ? "/users/login" : "/users",
-    options
-  );
+  const { post, isLoading } = useFetch();
 
   function handleSubmit(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
-    refetch();
+    post(isLogin ? "/users/login" : "/users", { user: userData });
   }
   const changePassword = stateSetter(setPassword);
   const changeEmail = stateSetter(setEmail);
   const changeUsername = stateSetter(setUsername);
-
-  useEffect(() => {
-    if (!data) return;
-    setToken(data.user.token);
-    setUser(data.user);
-  }, [data]);
+  console.log(isLoading);
 
   return (
     <StoreProvider

@@ -12,13 +12,14 @@ function Component() {
     changePassword,
     changeUsername,
     isLogin,
+    isLoading,
   } = useAuthenticationStore();
 
   const urlApi = isLogin ? "/users/login" : "/users";
   const pageTitle = isLogin ? "Sign In" : "Sign Up";
   const descriptionLink = isLogin ? "/register" : "/login";
   const descriptionText = isLogin ? "Need an account?" : "Have an account?";
-
+  
   return (
     <div className="auth-page">
       <div className="container page">
@@ -62,7 +63,10 @@ function Component() {
                     onChange={changePassword}
                   />
                 </fieldset>
-                <button className="btn btn-primary btn-lg pull-xs-right offset-lg-4">
+                <button
+                  disabled={isLoading}
+                  className="btn btn-primary btn-lg pull-xs-right offset-lg-4"
+                >
                   {pageTitle}
                 </button>
               </fieldset>

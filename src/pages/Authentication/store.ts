@@ -11,5 +11,6 @@ export interface IContext {
   changePassword: (event: ChangeEvent<HTMLInputElement>) => void;
   changeUsername: (event: ChangeEvent<HTMLInputElement>) => void;
   isLogin: boolean;
+  isLoading: boolean;
 }
 export const { useStore, StoreProvider } = getStoreContext<IContext>();
