@@ -16,7 +16,7 @@ export function useFetch() {
   };
 
   function request(method: string) {
-    return async (url: string, body: any) => {
+    return async (url: string, body?: any) => {
       const requestOptions: any = {
         method,
         headers: authHeader(url),
@@ -27,12 +27,11 @@ export function useFetch() {
       }
       try {
         setIsLoading(true);
-        await fetch(baseUrl + url, requestOptions).then(handleResponse);
-        setIsLoading(false);
+        return await fetch(baseUrl + url, requestOptions).then(handleResponse);
       } catch (error) {
         console.log(error);
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
   }
 

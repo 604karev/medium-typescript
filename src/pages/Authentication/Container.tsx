@@ -6,6 +6,7 @@ import { useFetch } from "hooks/useFetch";
 import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "hooks/useLocalSrorage";
 import { useUserContextStore } from "contexts/UserContext";
+import { useUserActions } from "hooks/useUserActions";
 
 export interface User {
   name: string;
@@ -25,16 +26,16 @@ function Container() {
     : { username, email, password };
   const { setToken } = useLocalStorage("token");
   const { user, setUser } = useUserContextStore();
-  const { post, isLoading } = useFetch();
+  const { register } = useUserActions();
+  const { isLoading } = useFetch();
 
   function handleSubmit(e: MouseEvent<HTMLElement>) {
     e.preventDefault();
-    post(isLogin ? "/users/login" : "/users", { user: userData });
+    register({ user: userData });
   }
   const changePassword = stateSetter(setPassword);
   const changeEmail = stateSetter(setEmail);
   const changeUsername = stateSetter(setUsername);
-  console.log(isLoading);
 
   return (
     <StoreProvider
