@@ -5,7 +5,6 @@ import { stateSetter } from "utils";
 import { useFetch } from "hooks/useFetch";
 import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "hooks/useLocalSrorage";
-import { useUserContextStore } from "contexts/UserContext";
 import { useUserActions } from "hooks/useUserActions";
 
 export interface User {
@@ -25,7 +24,7 @@ function Container() {
     ? { email, password }
     : { username, email, password };
   const { setToken } = useLocalStorage("token");
-  const { user, setUser } = useUserContextStore();
+
   const { register } = useUserActions();
   const { isLoading } = useFetch();
 
