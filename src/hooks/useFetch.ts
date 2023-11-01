@@ -2,6 +2,14 @@ import { useRecoilState } from "recoil";
 import { authAtom } from "state/auth";
 import { useEffect, useState } from "react";
 
+type HTTPMethods = "POST" | "GET" | "PUT" | "PATCH" | "DELETE";
+
+interface IRequestOptions {
+  method: HTTPMethods;
+  headers?: { [key: string]: any };
+  body?: string;
+}
+
 export function useFetch() {
   const [auth, setAuth] = useRecoilState(authAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,13 +23,13 @@ export function useFetch() {
     isLoading: isLoading,
   };
 
-  function request(method: string) {
-    return async (url: string, body?: any) => {
-      const requestOptions: any = {
+  function request(method: HTTPMethods) {
+    return async (url: string, body: string) => {
+      const requestOptions: IRequestOptions = {
         method,
         headers: authHeader(url),
       };
-      if (body) {
+      if (body && requestOptions.headers) {
         requestOptions.headers["Content-Type"] = "application/json";
         requestOptions.body = JSON.stringify(body);
       }
@@ -41,7 +49,8 @@ export function useFetch() {
     // return auth header with jwt if user is logged in and request is to the api url
     const token = auth?.token;
     const isLoggedIn = !!token;
-    const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL as any);
+    if (!process.env.REACT_APP_API_URL) return;
+    const isApiUrl = url.startsWith(process.env.REACT_APP_API_URL);
     if (isLoggedIn && isApiUrl) {
       return { Authorization: `Bearer ${token}` };
     } else {
@@ -49,7 +58,7 @@ export function useFetch() {
     }
   }
 
-  function handleResponse(response: any) {
+  function handleResponse<T extends Object>(response: any): T {
     return response.text().then((text: string) => {
       const data = text && JSON.parse(text);
 
